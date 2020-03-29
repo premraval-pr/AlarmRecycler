@@ -91,6 +91,10 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
                     alarmTitle.setText("Next Alarm today");
                     formattedDesc = date.format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
                     alarmDesc.setText(formattedDesc);
+                } else if(AlarmProvider.COUNT == 2){
+                    alarmTitle.setText("Next Alarm tomorrow");
+                    formattedDesc = date.plusDays(AlarmProvider.COUNT - 1).format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    alarmDesc.setText(formattedDesc);
                 } else {
                     alarmTitle.setText("Next Alarm in " + String.valueOf(AlarmProvider.COUNT - 1) + " days");
                     formattedDesc = date.plusDays(AlarmProvider.COUNT - 1).format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
