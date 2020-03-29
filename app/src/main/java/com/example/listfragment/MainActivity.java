@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class MainActivity extends BaseActivity implements AlarmFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AlarmFragment.OnListFragmentInteractionListener {
 
     AlarmFragment alarmFragment;
     Intent intent;

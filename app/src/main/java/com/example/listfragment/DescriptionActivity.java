@@ -83,23 +83,6 @@ public class DescriptionActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void saveClicked(View view) {
-
-        //Extracting hour and minute from Time picker and pad it with left zeros
-        /*String hour = String.format("%02d",timePicker.getHour());
-        String minute = String.format("%02d",timePicker.getMinute());
-
-        //Get AM PM from time picker
-        String ampm = Integer.parseInt(hour)<12?"am":"pm";
-
-        //Checking PM and take out 12 from hour (23 is changed to 11)
-        if(ampm.equals("pm")) hour = String.format("%02d",Integer.parseInt(hour)-12);
-
-        //If hour is 00 then change to 12
-        if(Integer.parseInt(hour)==0) hour = "12";
-
-        //Master Formatting
-        String time = hour + ":" + minute + ampm;*/
-
         AlarmProvider.AlarmItem tempItem = mItem;
 
         if (tempItem != null) {
