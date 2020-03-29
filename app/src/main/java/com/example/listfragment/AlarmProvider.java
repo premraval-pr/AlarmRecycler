@@ -1,10 +1,6 @@
 package com.example.listfragment;
 
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -45,19 +41,19 @@ public class AlarmProvider {
                 false,false,false,false));*/
     }
 
-    static void populate(){
-        addItem(new AlarmItem("College",LocalTime.of(3, 0),true,
-                false,true,false,
-                false,true,false,
-                false,false,false,false));
-        addItem(new AlarmItem("Gym",LocalTime.of(10, 0),false,
-                false,false,false,
-                false,true,true,
-                true,false,false,false));
-        addItem(new AlarmItem("",LocalTime.of(22, 15),true,
-                false,false,false,
-                false,false,false,
-                false,false,false,false));
+    static void populate() {
+        addItem(new AlarmItem("College", LocalTime.of(3, 0), true,
+                false, true, false,
+                false, true, false,
+                false, false, false, false));
+        addItem(new AlarmItem("Gym", LocalTime.of(10, 0), false,
+                false, false, false,
+                false, true, true,
+                true, false, false, false));
+        addItem(new AlarmItem("", LocalTime.of(22, 15), true,
+                false, false, false,
+                false, false, false,
+                false, false, false, false));
     }
 
     static void addItem(AlarmItem item) {
@@ -68,8 +64,8 @@ public class AlarmProvider {
     static AlarmItem getLatestActiveAlarm() {
         List<AlarmItem> allActiveAlarms = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<ITEMS.size();i++){
-                if(ITEMS.get(i).isOn()) allActiveAlarms.add(ITEMS.get(i));
+            for (int i = 0; i < ITEMS.size(); i++) {
+                if (ITEMS.get(i).isOn()) allActiveAlarms.add(ITEMS.get(i));
             }
         }
 
@@ -83,7 +79,7 @@ public class AlarmProvider {
         }
         AlarmItem nextItem = null;
 
-        while(true) {
+        while (true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 COUNT++;
             }
@@ -124,10 +120,10 @@ public class AlarmProvider {
                     }
                     break;
             }
-            if(!currentDay.isEmpty()){
-                for(AlarmItem mItem : currentDay){
+            if (!currentDay.isEmpty()) {
+                for (AlarmItem mItem : currentDay) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if(day==calendar.get(Calendar.DAY_OF_WEEK)) {
+                        if (day == calendar.get(Calendar.DAY_OF_WEEK)) {
                             if ((mItem.getAlarmTime().compareTo(LocalTime.now()) > 0)) {
                                 if (nextItem == null) nextItem = mItem;
                                 else {
@@ -136,8 +132,7 @@ public class AlarmProvider {
                                     }
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             if (nextItem == null) nextItem = mItem;
                             else {
                                 if ((nextItem.getAlarmTime().compareTo(mItem.getAlarmTime()) > 0)) {
@@ -148,32 +143,28 @@ public class AlarmProvider {
                     }
                 }
             }
-            if(nextItem!=null){
+            if (nextItem != null) {
                 return nextItem;
-            }
-            else {
-                if(day==7) day=1;
+            } else {
+                if (day == 7) day = 1;
                 else day++;
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if(COUNT==7) return null;
+                if (COUNT == 7) return null;
             }
         }
 
     }
 
 
-
-
-
     /**
      * A dummy item representing a piece of content.
      */
-    public static class AlarmItem{
+    public static class AlarmItem {
         private String alarmTitle;
         private LocalTime alarmTime;
-        private boolean isOn,onSun,onMon,onTue,onWed,onThu,onFri,onSat,soundON,vibrationON,snoozeON;
+        private boolean isOn, onSun, onMon, onTue, onWed, onThu, onFri, onSat, soundON, vibrationON, snoozeON;
 
         public AlarmItem() {
         }
@@ -256,6 +247,7 @@ public class AlarmProvider {
         public void setOnSat(boolean onSat) {
             this.onSat = onSat;
         }
+
         public boolean isSoundON() {
             return soundON;
         }

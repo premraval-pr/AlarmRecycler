@@ -1,10 +1,5 @@
 package com.example.listfragment;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -13,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.listfragment.AlarmFragment.OnListFragmentInteractionListener;
 import com.example.listfragment.AlarmProvider.AlarmItem;
@@ -51,25 +51,32 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
         holder.textviewTime.setText(holder.mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a")));
         holder.isOn.setChecked(holder.mItem.isOn());
 
-        if(holder.mItem.isOnSun()) holder.onSun.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnSun())
+            holder.onSun.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onSun.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnMon()) holder.onMon.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnMon())
+            holder.onMon.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onMon.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnTue()) holder.onTue.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnTue())
+            holder.onTue.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onTue.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnWed()) holder.onWed.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnWed())
+            holder.onWed.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onWed.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnThu()) holder.onThu.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnThu())
+            holder.onThu.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onThu.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnFri()) holder.onFri.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnFri())
+            holder.onFri.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onFri.setTextColor(Color.WHITE);
 
-        if(holder.mItem.isOnSat()) holder.onSat.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        if (holder.mItem.isOnSat())
+            holder.onSat.setTextColor(ContextCompat.getColor(holder.mView.getContext(), R.color.colorPrimary));
         else holder.onSat.setTextColor(Color.WHITE);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +102,7 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (null != mListener) {
-                    mListener.onSwitchPress(position,holder.isOn.isChecked());
+                    mListener.onSwitchPress(position, holder.isOn.isChecked());
                 }
             }
         });
@@ -108,7 +115,7 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView textviewTitle,textviewTime,onSun,onMon,onTue,onWed,onThu,onFri,onSat;
+        final TextView textviewTitle, textviewTime, onSun, onMon, onTue, onWed, onThu, onFri, onSat;
         final Switch isOn;
         AlarmItem mItem;
 
@@ -122,7 +129,7 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
             onMon = view.findViewById(R.id.tv_M);
             onTue = view.findViewById(R.id.tv_Tu);
             onWed = view.findViewById(R.id.tv_W);
-            onThu  = view.findViewById(R.id.tv_Th);
+            onThu = view.findViewById(R.id.tv_Th);
             onFri = view.findViewById(R.id.tv_F);
             onSat = view.findViewById(R.id.tv_St);
         }

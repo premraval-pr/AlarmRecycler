@@ -3,18 +3,15 @@ package com.example.listfragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.listfragment.AlarmProvider.AlarmItem;
 
 /**
  * A fragment representing a list of Items.
@@ -68,7 +65,7 @@ public class AlarmFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
 
-        myAlarmRecyclerViewAdapter  = new MyAlarmRecyclerViewAdapter(AlarmProvider.ITEMS, mListener);
+        myAlarmRecyclerViewAdapter = new MyAlarmRecyclerViewAdapter(AlarmProvider.ITEMS, mListener);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -115,7 +112,9 @@ public class AlarmFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(int position);
+
         void onLongPress(int position);
-        void onSwitchPress(int position,boolean isOn);
+
+        void onSwitchPress(int position, boolean isOn);
     }
 }
