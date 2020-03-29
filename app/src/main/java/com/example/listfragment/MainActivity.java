@@ -36,28 +36,7 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
     protected void onResume() {
         super.onResume();
         alarmFragment.getMyAlarmRecyclerViewAdapter().notifyDataSetChanged();
-        AlarmProvider.AlarmItem mItem = AlarmProvider.getLatestActiveAlarm();
-        if (mItem != null) {
-            LocalDate date = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                date = LocalDate.now();
-            }
-            String formattedDesc = "";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (AlarmProvider.COUNT == 1) {
-                    alarmTitle.setText("Next Alarm today");
-                    formattedDesc = date.format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
-                    alarmDesc.setText(formattedDesc);
-                } else {
-                    alarmTitle.setText("Next Alarm in " + String.valueOf(AlarmProvider.COUNT - 1) + " days");
-                    formattedDesc = date.plusDays(AlarmProvider.COUNT - 1).format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
-                    alarmDesc.setText(formattedDesc);
-                }
-            }
-        } else {
-            alarmTitle.setText("No Alarms Coming");
-            alarmDesc.setText("No Alarms Coming");
-        }
+        setLatestAlarm();
     }
 
     @Override
@@ -88,7 +67,7 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
     @Override
     public void onSwitchPress(int position, boolean isOn) {
         AlarmProvider.ITEMS.get(position).setOn(isOn);
-        onResume();
+        setLatestAlarm();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -99,7 +78,28 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void titleClicked(View view) {
-
+    public void setLatestAlarm(){
+        AlarmProvider.AlarmItem mItem = AlarmProvider.getLatestActiveAlarm();
+        if (mItem != null) {
+            LocalDate date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                date = LocalDate.now();
+            }
+            String formattedDesc = "";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (AlarmProvider.COUNT == 1) {
+                    alarmTitle.setText("Next Alarm today");
+                    formattedDesc = date.format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    alarmDesc.setText(formattedDesc);
+                } else {
+                    alarmTitle.setText("Next Alarm in " + String.valueOf(AlarmProvider.COUNT - 1) + " days");
+                    formattedDesc = date.plusDays(AlarmProvider.COUNT - 1).format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    alarmDesc.setText(formattedDesc);
+                }
+            }
+        } else {
+            alarmTitle.setText("No Alarms Coming");
+            alarmDesc.setText("No Alarms Coming");
+        }
     }
 }
