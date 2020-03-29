@@ -9,26 +9,60 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class MainActivity extends BaseActivity implements AlarmFragment.OnListFragmentInteractionListener {
 
     AlarmFragment alarmFragment;
     Intent intent;
+    TextView alarmTitle,alarmDesc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        alarmTitle = findViewById(R.id.tv_alarmTitle);
+        alarmDesc = findViewById(R.id.tv_alarmDesc);
         alarmFragment = new AlarmFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_rv,alarmFragment)
                 .commit();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume() {
         super.onResume();
-        //alarmFragment.getMyAlarmRecyclerViewAdapter().notifyDataSetChanged();
+        alarmFragment.getMyAlarmRecyclerViewAdapter().notifyDataSetChanged();
+        AlarmProvider.AlarmItem mItem = AlarmProvider.getLatestActiveAlarm();
+        if(mItem!=null){
+            LocalDate date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                date = LocalDate.now();
+            }
+            String formattedDesc = "";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(AlarmProvider.COUNT==1){
+                    alarmTitle.setText("Next Alarm today");
+                    formattedDesc = date.format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    alarmDesc.setText(formattedDesc);
+                }
+                else{
+                    alarmTitle.setText("Next Alarm in " + String.valueOf(AlarmProvider.COUNT-1) + " days");
+                    formattedDesc = date.plusDays(AlarmProvider.COUNT-1).format(DateTimeFormatter.ofPattern("MMM d, E, ")) + mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    alarmDesc.setText(formattedDesc);
+                }
+            }
+        }
+        else{
+            alarmTitle.setText("No Alarms Coming");
+            alarmDesc.setText("No Alarms Coming");
+        }
     }
 
     @Override
@@ -59,6 +93,7 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
     @Override
     public void onSwitchPress(int position,boolean isOn) {
         AlarmProvider.ITEMS.get(position).setOn(isOn);
+        onResume();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -70,12 +105,6 @@ public class MainActivity extends BaseActivity implements AlarmFragment.OnListFr
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void titleClicked(View view) {
-        AlarmProvider.AlarmItem mItem = AlarmProvider.getLatestActiveAlarm();
-        if(mItem!=null){
-            Toast.makeText(getApplicationContext(),mItem.toString(),Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"No Alarms",Toast.LENGTH_SHORT).show();
-        }
+
     }
 }

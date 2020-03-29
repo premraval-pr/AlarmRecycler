@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,14 +51,27 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
         holder.textviewTime.setText(holder.mItem.getAlarmTime().format(DateTimeFormatter.ofPattern("hh:mm a")));
         holder.isOn.setChecked(holder.mItem.isOn());
 
-
         if(holder.mItem.isOnSun()) holder.onSun.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onSun.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnMon()) holder.onMon.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onMon.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnTue()) holder.onTue.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onTue.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnWed()) holder.onWed.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onWed.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnThu()) holder.onThu.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onThu.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnFri()) holder.onFri.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onFri.setTextColor(Color.WHITE);
+
         if(holder.mItem.isOnSat()) holder.onSat.setTextColor(ContextCompat.getColor(holder.mView.getContext(),R.color.colorPrimary));
+        else holder.onSat.setTextColor(Color.WHITE);
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +82,6 @@ public class MyAlarmRecyclerViewAdapter extends RecyclerView.Adapter<MyAlarmRecy
                 }
             }
         });
-
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

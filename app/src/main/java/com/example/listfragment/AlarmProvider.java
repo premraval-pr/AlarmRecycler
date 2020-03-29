@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +27,8 @@ public class AlarmProvider {
      * An array of sample (dummy) items.
      */
     public static final List<AlarmItem> ITEMS = new ArrayList<AlarmItem>();
+
+    static int COUNT = 0;
 
     static {
         /*addItem(new AlarmItem("College",LocalTime.of(3, 0),true,
@@ -69,74 +72,21 @@ public class AlarmProvider {
                 if(ITEMS.get(i).isOn()) allActiveAlarms.add(ITEMS.get(i));
             }
         }
-       /* List<AlarmItem> allSundayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnSun()) allSundayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allSundayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allMondayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnMon()) allMondayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allMondayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allTuesdayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnTue()) allTuesdayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allTuesdayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allWednesdayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnWed()) allWednesdayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allWednesdayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allThursdayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnThu()) allThursdayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allThursdayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allFridayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnFri()) allFridayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allFridayActiveAlarms.sort(new TimeSorter());
-        List<AlarmItem> allSaturdayActiveAlarms = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for(int i=0;i<allActiveAlarms.size();i++){
-                if(allActiveAlarms.get(i).isOnSat()) allSaturdayActiveAlarms.add(allActiveAlarms.get(i));
-            }
-        }
-        allSaturdayActiveAlarms.sort(new TimeSorter());
-        int day = Calendar.DAY_OF_WEEK;
-        day = 1;
-        Log.d("Day",String.valueOf(day));
-        List<AlarmItem> mainSort = new ArrayList<>();
-        switch (day){
-            case Calendar.SUNDAY: if(allSundayActiveAlarms.size()>0) mainSort.add(allSundayActiveAlarms.get(0));
-            case Calendar.MONDAY: if(allMondayActiveAlarms.size()>0) mainSort.add(allMondayActiveAlarms.get(0));
-            case Calendar.TUESDAY: if(allTuesdayActiveAlarms.size()>0) mainSort.add(allTuesdayActiveAlarms.get(0));
-            case Calendar.WEDNESDAY: if(allWednesdayActiveAlarms.size()>0) mainSort.add(allWednesdayActiveAlarms.get(0));
-            case Calendar.THURSDAY: if(allThursdayActiveAlarms.size()>0) mainSort.add(allThursdayActiveAlarms.get(0));
-            case Calendar.FRIDAY: if(allFridayActiveAlarms.size()>0) mainSort.add(allFridayActiveAlarms.get(0));
-            case Calendar.SATURDAY: if(allSaturdayActiveAlarms.size()>0) mainSort.add(allSaturdayActiveAlarms.get(0));
-        }
-        if(mainSort.size()>0) return mainSort.get(mainSort.size()-1);*/
+
         List<AlarmItem> currentDay = new ArrayList<>();
-        int day = Calendar.getInstance().DAY_OF_WEEK;
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            COUNT = 0;
+        }
         AlarmItem nextItem = null;
 
         while(true) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                COUNT++;
+            }
             switch (day) {
                 case Calendar.SUNDAY:
                     for (AlarmItem nItem : allActiveAlarms) {
@@ -177,7 +127,7 @@ public class AlarmProvider {
             if(!currentDay.isEmpty()){
                 for(AlarmItem mItem : currentDay){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if(day==Calendar.DAY_OF_WEEK) {
+                        if(day==calendar.get(Calendar.DAY_OF_WEEK)) {
                             if ((mItem.getAlarmTime().compareTo(LocalTime.now()) > 0)) {
                                 if (nextItem == null) nextItem = mItem;
                                 else {
@@ -204,6 +154,10 @@ public class AlarmProvider {
             else {
                 if(day==7) day=1;
                 else day++;
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(COUNT==7) return null;
             }
         }
 
@@ -354,6 +308,5 @@ public class AlarmProvider {
                     ", isOn=" + isOn +
                     '}';
         }
-
     }
 }
